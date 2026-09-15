@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skilla — Formations pour apprendre plus vite</title>
+<style>
+  :root{
+    --ink:#12172B;
+    --panel:#1B2140;
+    --panel-2:#232B52;
+    --paper:#EDE9DE;
+    --amber:#F2A93B;
+    --amber-dim:#C98A26;
+    --line:rgba(237,233,222,0.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Segoe UI', Helvetica, Arial, sans-serif;
+    line-height:1.5;
+  }
+  h1,h2,h3,.display{
+    font-family:Georgia,'Iowan Old Style','Palatino Linotype',serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+  nav{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:24px 0;
+  }
+  .logo{font-family:Georgia,serif;font-size:22px;letter-spacing:-0.02em;}
+  .logo span{color:var(--amber);}
+  .nav-links{display:flex;gap:28px;font-size:14px;opacity:0.85;}
+  .nav-links a:hover{opacity:1;color:var(--amber);}
+
+  .hero{padding:64px 0 88px;}
+  .hero-grid{display:flex;gap:56px;align-items:flex-end;flex-wrap:wrap;}
+  .hero h1{font-size:52px;line-height:1.08;max-width:620px;}
+  .hero p.lede{
+    max-width:480px;font-size:17px;opacity:0.78;margin-top:20px;
+  }
+  .hero-stat{
+    border-left:1px solid var(--line);
+    padding-left:24px;min-width:180px;
+  }
+  .hero-stat .num{font-family:Georgia,serif;font-size:40px;color:var(--amber);}
+  .hero-stat .lbl{font-size:13px;opacity:0.65;margin-top:4px;}
+  .cta-row{margin-top:32px;display:flex;gap:16px;flex-wrap:wrap;}
+  .btn{
+    display:inline-block;padding:13px 26px;border-radius:3px;
+    font-size:15px;font-weight:600;cursor:pointer;border:1px solid transparent;
+  }
+  .btn-primary{background:var(--amber);color:var(--ink);}
+  .btn-primary:hover{background:#ffbf5c;}
+  .btn-ghost{border-color:var(--line);color:var(--paper);}
+  .btn-ghost:hover{border-color:var(--amber);color:var(--amber);}
+
+  .section{padding:64px 0;border-top:1px solid var(--line);}
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:36px;flex-wrap:wrap;gap:12px;}
+  .section-head h2{font-size:30px;}
+  .section-head p{opacity:0.65;font-size:14px;max-width:360px;}
+
+  .courses{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;}
+  .course{
+    background:var(--panel);border:1px solid var(--line);
+    padding:26px 22px;display:flex;flex-direction:column;gap:14px;
+  }
+  .course .tag{font-size:12px;color:var(--amber);}
+  .course h3{font-size:19px;line-height:1.3;}
+  .course .desc{font-size:14px;opacity:0.7;flex-grow:1;}
+  .course .meta{display:flex;justify-content:space-between;align-items:center;
+    border-top:1px solid var(--line);padding-top:14px;font-size:14px;}
+  .price{font-family:Georgia,serif;font-size:21px;color:var(--amber);}
+  .price .old{font-size:13px;color:rgba(237,233,222,0.4);text-decoration:line-through;margin-right:8px;font-family:inherit;}
+  .buy{
+    background:transparent;border:1px solid var(--amber);color:var(--amber);
+    padding:9px 16px;font-size:13px;cursor:pointer;border-radius:3px;
+  }
+  .buy:hover{background:var(--amber);color:var(--ink);}
+
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px;}
+  .step .title{font-size:16px;font-weight:600;margin-bottom:8px;}
+  .step .body{font-size:14px;opacity:0.68;}
+
+  footer{padding:48px 0;border-top:1px solid var(--line);font-size:13px;opacity:0.55;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+
+  .overlay{
+    position:fixed;inset:0;background:rgba(10,12,24,0.7);
+    display:none;align-items:center;justify-content:center;z-index:50;padding:20px;
+  }
+  .overlay.open{display:flex;}
+  .modal{
+    background:var(--panel-2);border:1px solid var(--line);
+    max-width:400px;width:100%;padding:32px;
+  }
+  .modal h3{font-size:20px;margin-bottom:6px;}
+  .modal p{font-size:14px;opacity:0.7;margin-bottom:20px;}
+  .modal .field{margin-bottom:14px;}
+  .modal label{font-size:12px;opacity:0.6;display:block;margin-bottom:6px;}
+  .modal input{
+    width:100%;background:var(--ink);border:1px solid var(--line);
+    color:var(--paper);padding:10px 12px;font-size:14px;border-radius:3px;
+  }
+  .modal .close{position:absolute;top:16px;right:20px;cursor:pointer;opacity:0.6;font-size:18px;}
+  .modal-inner{position:relative;}
+  .note{
+    margin-top:16px;font-size:12px;opacity:0.55;border-top:1px solid var(--line);
+    padding-top:14px;
+  }
+
+  @media(max-width:640px){
+    .hero h1{font-size:36px;}
+    nav{flex-direction:column;gap:16px;align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <div class="logo">skil<span>la</span></div>
+    <div class="nav-links">
+      <a href="#formations">Formations</a>
+      <a href="#comment">Comment ça marche</a>
+    </div>
+  </nav>
+</div>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Apprends à apprendre — vraiment.</h1>
+      <p class="lede">Des formations courtes et concrètes pour retenir plus, procrastiner moins et progresser sans y passer ta vie. Créées pour être finies, pas juste achetées.</p>
+      <div class="cta-row">
+        <a href="#formations" class="btn btn-primary">Voir les formations</a>
+        <a href="#comment" class="btn btn-ghost">Comment ça marche</a>
+      </div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">4</div>
+      <div class="lbl">formations disponibles,<br>chacune sous 3h de contenu</div>
+    </div>
+  </div>
+</header>
+
+<section class="section" id="formations">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Les formations</h2>
+      <p>Accès à vie, support PDF inclus, remboursé si t'as fini le programme sans résultat.</p>
+    </div>
+    <div class="courses">
+
+      <div class="course">
+        <div class="tag">Mémorisation</div>
+        <h3>La méthode des répétitions espacées</h3>
+        <p class="desc">Un système simple pour retenir un cours sur le long terme au lieu de tout réviser la veille.</p>
+        <div class="meta">
+          <div class="price"><span class="old">39€</span>19€</div>
+          <button class="buy" data-name="La méthode des répétitions espacées" data-price="19€">Acheter</button>
+        </div>
+      </div>
+
+      <div class="course">
+        <div class="tag">Organisation</div>
+        <h3>Zéro procrastination, 6 semaines</h3>
+        <p class="desc">Un plan semaine par semaine pour arrêter de remettre au lendemain, sans discours de motivation creux.</p>
+        <div class="meta">
+          <div class="price"><span class="old">45€</span>24€</div>
+          <button class="buy" data-name="Zéro procrastination, 6 semaines" data-price="24€">Acheter</button>
+        </div>
+      </div>
+
+      <div class="course">
+        <div class="tag">Écrit</div>
+        <h3>Structurer une dissertation en 20 minutes</h3>
+        <p class="desc">La méthode pour bâtir un plan clair et une intro solide avant même de commencer à rédiger.</p>
+        <div class="meta">
+          <div class="price"><span class="old">35€</span>17€</div>
+          <button class="buy" data-name="Structurer une dissertation en 20 minutes" data-price="17€">Acheter</button>
+        </div>
+      </div>
+
+      <div class="course">
+        <div class="tag">Concentration</div>
+        <h3>Travailler 2h sans décrocher</h3>
+        <p class="desc">Des techniques concrètes pour tenir des sessions de travail profond, sans regarder ton téléphone toutes les 5 minutes.</p>
+        <div class="meta">
+          <div class="price"><span class="old">29€</span>15€</div>
+          <button class="buy" data-name="Travailler 2h sans décrocher" data-price="15€">Acheter</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section" id="comment">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Comment ça marche</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="title">Tu choisis une formation</div>
+        <div class="body">Chaque programme cible un seul problème précis, pas un vague thème "réussir sa vie".</div>
+      </div>
+      <div class="step">
+        <div class="title">Tu reçois l'accès immédiatement</div>
+        <div class="body">Vidéos courtes + PDF récapitulatif, à ton rythme, accès à vie.</div>
+      </div>
+      <div class="step">
+        <div class="title">Tu appliques, pas juste tu regardes</div>
+        <div class="body">Chaque module se termine par une action concrète à faire dans la semaine.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;width:100%;">
+    <div>skilla — formations en ligne</div>
+    <div>contact@skilla.example</div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-inner">
+      <div class="close" id="closeModal">✕</div>
+      <h3 id="modalTitle">Formation</h3>
+      <p id="modalPrice">19€ — accès à vie</p>
+      <div class="field">
+        <label>Adresse email</label>
+        <input type="email" placeholder="toi@exemple.com">
+      </div>
+      <div class="field">
+        <label>Carte bancaire</label>
+        <input type="text" placeholder="Paiement non branché — voir note ci-dessous">
+      </div>
+      <button class="btn btn-primary" style="width:100%;">Payer</button>
+      <div class="note">Ce bouton est une maquette : aucun paiement réel n'est pris ici. Pour encaisser de l'argent, il faut brancher un vrai prestataire (Stripe, PayPal...), ce qui suppose un statut légal (auto-entrepreneur).</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const overlay = document.getElementById('overlay');
+  const closeModal = document.getElementById('closeModal');
+  document.querySelectorAll('.buy').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.getElementById('modalTitle').textContent = btn.dataset.name;
+      document.getElementById('modalPrice').textContent = btn.dataset.price + ' — accès à vie';
+      overlay.classList.add('open');
+    });
+  });
+  closeModal.addEventListener('click', ()=> overlay.classList.remove('open'));
+  overlay.addEventListener('click', (e)=>{ if(e.target === overlay) overlay.classList.remove('open'); });
+</script>
+
+</body>
+</html>
